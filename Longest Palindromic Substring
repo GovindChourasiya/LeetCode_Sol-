@@ -1,0 +1,35 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        if (n <= 1) return s;
+        int maxLen = 1;
+        int st = 0, end = 0;
+
+        for (int i = 0; i < n; i++) {
+            int[] odd = expandPalindrome(s, i, i);
+            int[] even = expandPalindrome(s, i, i + 1);
+
+            if (odd[1] - odd[0] + 1 > maxLen) { // Corrected condition
+                maxLen = odd[1] - odd[0] + 1;
+                st = odd[0];
+                end = odd[1];
+            }
+
+            if (even[1] - even[0] + 1 > maxLen) { // Corrected condition
+                maxLen = even[1] - even[0] + 1;
+                st = even[0];
+                end = even[1];
+            }
+        }
+
+        return s.substring(st, end + 1);
+    }
+
+    private int[] expandPalindrome(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return new int[]{left + 1, right - 1};
+    }
+}
