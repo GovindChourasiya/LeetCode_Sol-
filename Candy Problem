@@ -1,0 +1,34 @@
+class Solution {
+    public int candy(int[] arr) {
+        int n = arr.length;
+        int leftArr[] = new int[n];
+        int rightArr[] = new int[n];
+        for(int i=0;i<n;i++){
+            if( i == 0){
+                leftArr[i] = 1;
+                continue;
+            }
+            if(arr[i-1] < arr[i]){
+                leftArr[i] = leftArr[i-1]+1;
+            } else{
+                leftArr[i] = 1;
+            }
+        }
+        for(int i=n-1;i>=0;i--){
+            if(i == n-1){
+                rightArr[i] = 1;
+                continue;
+            }
+            if(arr[i] > arr[i+1]){
+                rightArr[i] = rightArr[i+1]+1;
+            } else{
+                rightArr[i] = 1;
+            }
+        }
+        int sum = 0;
+        for(int i=0;i<n;i++){
+            sum += Math.max(leftArr[i],rightArr[i]);
+        }
+        return sum;
+    }
+}
