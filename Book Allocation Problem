@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.*;
+public class Solution {
+    public static int findPages(ArrayList<Integer> arr, int n, int m) {
+        // If there are more students than books, return -1
+        if (m > n) {
+            return -1;
+        }
+
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < n; i++) {
+            start = Math.max(start, arr.get(i));
+            end += arr.get(i);
+        }
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            int sum = 0;
+            int studentsRequired = 1;
+
+            for (int i = 0; i < n; i++) {
+                if (sum + arr.get(i) > mid) {
+                    studentsRequired++;
+                    sum = arr.get(i);
+                    if (studentsRequired > m) {
+                        break;
+                    }
+                } else {
+                    sum += arr.get(i);
+                }
+            }
+
+            if (studentsRequired > m) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        
+        return start;
+    }
+}
