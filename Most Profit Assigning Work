@@ -1,0 +1,29 @@
+class Solution {
+    public int maxProfitAssignment(int[] diff, int[] prof, int[] worker) {
+        int maxDiff = 0;
+        for (int d : diff) {
+            maxDiff = Math.max(maxDiff, d);
+        }
+
+        int[] maxProf = new int[maxDiff + 1];
+        for (int i = 0; i < diff.length; i++) {
+            maxProf[diff[i]] = Math.max(maxProf[diff[i]], prof[i]);
+        }
+
+        for (int i = 1; i <= maxDiff; i++) {
+            maxProf[i] = Math.max(maxProf[i], maxProf[i - 1]);
+        }
+
+        int totalProf = 0;
+        for (int ability : worker) {
+            if (ability > maxDiff) {
+                totalProf += maxProf[maxDiff];
+            } else {
+                totalProf += maxProf[ability];
+            }
+        }
+
+        return totalProf;
+    }
+}
+
