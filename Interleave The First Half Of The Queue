@@ -1,0 +1,25 @@
+import java.util.* ;
+import java.io.*;
+
+public class Solution {
+    public static void interLeaveQueue(Queue < Integer > q) {
+        // Write your code here.
+        Queue<Integer> q2 = new LinkedList<>();
+        Queue<Integer> q3 = new LinkedList<>();
+        int n = q.size();
+        for(int i=0;i<n/2;i++){
+            q2.offer(q.poll());
+        }
+        while(!q.isEmpty()){
+            q3.offer(q.poll());
+        }
+        for(int i=0;i<n;i++){
+            if(i%2 == 0){
+                q.offer(q2.poll());
+            } else{
+                q.offer(q3.poll());
+            }
+        }
+
+    }
+}
