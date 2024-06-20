@@ -1,0 +1,32 @@
+class Solution {
+    public int maxDistance(int[] position, int m) {
+        int n = position.length;
+        Arrays.sort(position);
+        int start = 0;
+        int end = position[n-1];
+        
+        int result = 0;
+        while(start <= end){
+            int mid = start+(end-start)/2;
+            if(isPossible(position,m,mid)){
+                result = mid;
+                start = mid+1;
+            } else{
+                end = mid-1;
+            }
+        }
+        return result;
+    }
+
+    public boolean isPossible(int[] position,int m,int mid){
+        int count = 1;
+        int lastPlacedBall = position[0];
+        for(int i=0;i<position.length;i++){
+            if(position[i]-lastPlacedBall >= mid){
+                count++;
+                lastPlacedBall = position[i];
+            }
+        }
+        return count >= m;
+    }
+}
