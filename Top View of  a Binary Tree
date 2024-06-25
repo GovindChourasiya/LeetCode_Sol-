@@ -1,0 +1,39 @@
+static class info {
+    Node node;
+    int idx;
+    public info(Node node, int idx) {
+        this.node = node;
+        this.idx = idx;
+    }
+}
+
+static ArrayList<Integer> topView(Node root) {
+    // add your code
+    ArrayList<Integer> list = new ArrayList<>();
+    TreeMap<Integer, Integer> map = new TreeMap<>();
+    Queue<info> q = new LinkedList<>();
+    
+    q.offer(new info(root, 0));  // Changed push to offer
+    
+    while (!q.isEmpty()) {
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            info temp = q.poll();
+            if (!map.containsKey(temp.idx)) {
+                map.put(temp.idx, temp.node.data);
+            }
+            if (temp.node.left != null) {
+                q.offer(new info(temp.node.left, temp.idx - 1));
+            }
+            if (temp.node.right != null) {
+                q.offer(new info(temp.node.right, temp.idx + 1));
+            }
+        }
+    }
+    
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {  // Corrected treeMap to map
+        list.add(entry.getValue());
+    }
+    
+    return list;
+}
