@@ -1,0 +1,33 @@
+class Solution{
+    
+    // Return the size of the largest sub-tree which is also a BST
+    static boolean validBst(Node root,long min,long max){
+        if(root == null) return true;
+        
+        if(root.data <= min || root.data >= max) return false;
+        
+        return (validBst(root.left,min,max) && validBst(root.right,min,max));
+    }
+    static int countNodes(Node root){
+        if(root == null) return 0;
+        
+        return countNodes(root.left)+countNodes(root.right)+1;
+    }
+    static int largestBst(Node root)
+    {
+        // Write your code here
+        if(root == null) return 0;
+        
+        if(validBst(root,Integer.MIN_VALUE,Integer.MAX_VALUE)){
+            return countNodes(root);
+        } else{
+            int left = largestBst(root.left);
+            int right = largestBst(root.right);
+            return Math.max(left,right);
+        }
+        
+        
+        
+    }
+    
+}
