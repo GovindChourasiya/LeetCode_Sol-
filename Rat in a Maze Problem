@@ -1,0 +1,51 @@
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        ArrayList<String> list = new ArrayList<>();
+        if (m[0][0] == 0 || m[n-1][n-1] == 0) {
+            return list;
+        }
+        
+        boolean[][] visited = new boolean[n][n];
+        findPaths(m, n, 0, 0, "", list, visited);
+        return list;
+    }
+    
+    public static void findPaths(int[][] m, int n, int i, int j, String path, ArrayList<String> list, boolean[][] visited) {
+        // Base case: If destination is reached, add path to the list
+        if (i == n - 1 && j == n - 1) {
+            list.add(path);
+            return;
+        }
+        
+        // Mark the cell as visited
+        visited[i][j] = true;
+        
+        // Move Down
+        if (isValidMove(m, n, i + 1, j, visited)) {
+            findPaths(m, n, i + 1, j, path + "D", list, visited);
+        }
+        
+        // Move Left
+        if (isValidMove(m, n, i, j - 1, visited)) {
+            findPaths(m, n, i, j - 1, path + "L", list, visited);
+        }
+        
+        // Move Right
+        if (isValidMove(m, n, i, j + 1, visited)) {
+            findPaths(m, n, i, j + 1, path + "R", list, visited);
+        }
+        
+        // Move Up
+        if (isValidMove(m, n, i - 1, j, visited)) {
+            findPaths(m, n, i - 1, j, path + "U", list, visited);
+        }
+        
+        
+        visited[i][j] = false;
+    }
+    
+    public static boolean isValidMove(int[][] m, int n, int i, int j, boolean[][] visited) {
+        return i >= 0 && i < n && j >= 0 && j < n && m[i][j] == 1 && !visited[i][j];
+    }
+
+}
