@@ -1,0 +1,22 @@
+// User function Template for Java
+class Solution {
+    public boolean compute(Node root) {
+        String str="";
+        while(root != null){
+            str += root.data;
+            root = root.next;
+        }
+        
+        int l = 0;
+        int r = str.length()-1;
+        while(l <= r){
+            if(str.charAt(l) != str.charAt(r)){
+                return false;
+            }
+            l++;
+            r--;
+        }
+        
+        return true;
+    }
+}
