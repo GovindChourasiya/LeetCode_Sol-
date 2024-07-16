@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        TreeNode lca = getLCA(root,startValue,destValue);
+        
+        StringBuilder leftString = new StringBuilder();
+        StringBuilder rightString = new StringBuilder();
+
+        traverse(lca,startValue,leftString);
+        traverse(lca,destValue,rightString);
+
+        for(int i=0;i<leftString.length();i++){
+            leftString.setCharAt(i,'U');
+        }
+
+        return leftString.toString() + rightString.toString();
+    }
+    public TreeNode getLCA(TreeNode root, int start, int dest){
+        if(root == null || root.val == start || root.val == dest){
+            return root;
+        }
+
+        TreeNode left = getLCA(root.left,start,dest);
+        TreeNode right = getLCA(root.right,start,dest);
+
+        if(left == null){
+            return right;
+        } else if(right == null){
+            return left;
+        } else{
+            return root;
+        }
+    }
+    public boolean traverse(TreeNode root, int data, StringBuilder sb){
+        if(root == null){
+            return false;
+        } 
+        if(root.val == data){
+            return true;
+        }
+        sb.append('L');
+        if(traverse(root.left,data,sb)) return true;
+        sb.deleteCharAt(sb.length()-1);
+        
+        sb.append('R');
+        if(traverse(root.right,data,sb)) return true;
+        sb.deleteCharAt(sb.length()-1);
+
+        return false;
+
+    }
+}
