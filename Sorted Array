@@ -1,0 +1,29 @@
+class Solution {
+    public String[] sortPeople(String[] names, int[] heights) {
+        String[] str = new String[names.length];
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        for (int i = 0; i < heights.length; i++) {
+            map.put(heights[i], i);
+        }
+
+        Arrays.sort(heights);
+
+        for (int i = 0; i < heights.length; i++) {
+            int num = map.get(heights[i]);
+            str[i] = names[num];
+        }
+
+        int l = 0;
+        int r = str.length - 1;
+        while (l < r) {
+            String temp = str[l];
+            str[l] = str[r];
+            str[r] = temp;
+            l++;
+            r--;
+        }
+
+        return str;
+    }
+}
