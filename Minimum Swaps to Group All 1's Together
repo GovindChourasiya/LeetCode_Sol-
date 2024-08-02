@@ -1,0 +1,30 @@
+class Solution {
+    public int minSwaps(int[] nums) {
+        int n = nums.length;
+       
+        int totalOnes = 0;
+        for(int i=0;i<n;i++){
+            if(nums[i] == 1) totalOnes++;
+        }
+
+        int i=0;
+        int j=0;
+
+        int currOnes = 0;
+        int maxCount = Integer.MIN_VALUE;
+
+        while(i < 2*n){
+            if(nums[i%n] == 1){
+                currOnes++;
+            }
+            if(i-j+1 > totalOnes){
+                currOnes -= nums[j%n];
+                j++;
+            }
+            maxCount = Math.max(maxCount,currOnes);
+            i++;
+        }
+
+        return totalOnes-maxCount;
+    }
+}
