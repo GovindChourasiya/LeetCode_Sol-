@@ -1,0 +1,58 @@
+class Solution {
+    public Long func(long firstHalf, boolean isEven) {
+        long resNum = firstHalf;
+
+        // If the number is odd length, skip the middle digit by dividing firstHalf by 10
+        if (!isEven) {
+            firstHalf /= 10;
+        }
+
+        // Build the palindrome by appending the reversed first half
+        while (firstHalf > 0) {
+            int digit = (int)(firstHalf % 10);
+            resNum = (resNum * 10) + digit;
+            firstHalf /= 10;
+        }
+
+        return resNum;
+    }
+
+    public String nearestPalindromic(String n) {
+        int len = n.length();
+        int mid = len / 2;
+
+        // Get the first half of the number as long
+        long firstHalf = Long.parseLong(n.substring(0, len % 2 == 0 ? mid : mid + 1));
+
+        List<Long> list = new ArrayList<>();
+
+        // Generate potential palindrome candidates
+        list.add(func(firstHalf, len % 2 == 0));        // Same first half
+        list.add(func(firstHalf + 1, len % 2 == 0));    // First half + 1
+        list.add(func(firstHalf - 1, len % 2 == 0));    // First half - 1
+        list.add((long)(Math.pow(10, len - 1) - 1));    // Lower boundary like 999...9
+        list.add((long)(Math.pow(10, len) + 1));        // Upper boundary like 100...001
+
+        long diff = Long.MAX_VALUE;
+        long result = -1;
+
+        long orgNum = Long.parseLong(n);
+
+        // Find the nearest palindrome
+        for (long num : list) {
+            if (num == orgNum) {
+                continue;
+            }
+            long currentDiff = Math.abs(num - orgNum);
+
+            if (currentDiff < diff) {
+                diff = currentDiff;
+                result = num;
+            } else if (currentDiff == diff) {
+                result = Math.min(result, num);
+            }
+        }
+
+        return String.valueOf(result);
+    }
+}
