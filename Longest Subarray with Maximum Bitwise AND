@@ -1,0 +1,22 @@
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int maxVal = Integer.MIN_VALUE;
+
+        for(int num : nums){
+            maxVal = Math.max(maxVal,num);
+        }
+
+        int maxLen = Integer.MIN_VALUE;
+        int len = 0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i] == maxVal){
+                len++;
+            } else{
+                len = 0;
+            }
+            maxLen = Math.max(maxLen,len);
+        }
+
+        return maxLen;
+    }
+}
