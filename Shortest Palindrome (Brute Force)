@@ -1,0 +1,22 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        int n = s.length();
+        StringBuilder sb = new StringBuilder(s);
+        StringBuilder rev = new StringBuilder(s).reverse();
+        StringBuilder res = new StringBuilder();
+        int count = 0;
+
+        for(int i=n;i>=0;i--){
+            String str1 = s.substring(0,i);
+            String str2 = rev.substring(n-i);
+            if(str1.equals(str2)){
+                count = i;
+                break;
+            }
+        }
+        res.append(rev.substring(0,n-count));
+        res.append(s);
+
+        return res.toString();
+    }
+}
