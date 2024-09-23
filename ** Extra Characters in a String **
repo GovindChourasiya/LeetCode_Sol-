@@ -1,0 +1,28 @@
+class Solution {
+    public int arr[] = new int[51];
+
+    public int solve(int i, String s, Set<String> st, int n){
+        if(i >= n){
+            return 0;
+        }
+        if(arr[i] != -1){
+            return arr[i];
+        }
+        int result = 1 + solve(i+1,s,st,n);
+
+        for(int j=i;j<n;j++){
+            String curr = s.substring(i,j+1);
+            if(st.contains(curr)){
+                result = Math.min(result,solve(j+1,s,st,n));
+            }
+        }
+        return arr[i] = result;
+    }
+    public int minExtraChar(String s, String[] dictionary) {
+        int n = s.length();
+        Arrays.fill(arr,-1);
+        Set<String> st = new HashSet<>(Set.of(dictionary));
+
+        return solve(0  ,s,st,n);
+    }
+}
