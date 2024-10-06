@@ -1,0 +1,26 @@
+class Solution {
+    public boolean areSentencesSimilar(String s1, String s2) {
+        if(s1.length() < s2.length()){
+            String temp = s1;
+            s1 = s2;
+            s2 = temp;
+        }
+        String arr1[] = s1.trim().split(" ");
+        String arr2[] = s2.trim().split(" ");
+
+        int i = 0, j = arr1.length-1;
+        int k = 0, l = arr2.length-1;
+
+        while(k < arr2.length && i < arr1.length && arr1[i].equals(arr2[k])){
+            i++;
+            k++;
+        }
+
+        while(l >= k && arr2[l].equals(arr1[j])){
+            j--;
+            l--;
+        }
+
+        return l < k;
+    }
+}
