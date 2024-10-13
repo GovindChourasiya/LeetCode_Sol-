@@ -1,0 +1,53 @@
+import java.util.*;
+
+class Solution {
+    public int[] smallestRange(List<List<Integer>> nums) {
+        int k = nums.size();
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MIN_VALUE;
+
+        // Min-Heap to store the current minimum element along with its list index and index in that list
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+        // Initialize the heap with the first elements of each list
+        for (int i = 0; i < k; i++) {
+            List<Integer> list = nums.get(i);
+            left = Math.min(left, list.get(0));
+            right = Math.max(right, list.get(0));
+            minHeap.offer(new int[]{list.get(0), i, 0}); // {value, list index, index in list}
+        }
+
+        int[] res = {left, right};
+
+        while (true) {
+            int[] current = minHeap.poll();
+            int n = current[0]; // Current minimum element
+            int listIdx = current[1]; // Index of the list
+            int idx = current[2]; // Index in that list
+
+            // Move to the next element in the same list
+            idx++;
+            // If we've reached the end of one of the lists, we can't continue
+            if (idx == nums.get(listIdx).size()) {
+                break;
+            }
+
+            // Get the next value from the same list
+            int nextVal = nums.get(listIdx).get(idx);
+            minHeap.offer(new int[]{nextVal, listIdx, idx}); // Push the next element into the heap
+
+            // Update right boundary if necessary
+            right = Math.max(right, nextVal);
+            // Update left boundary to the minimum element in the heap
+            left = minHeap.peek()[0];
+
+            // If the current range is smaller than the previous best range, update the result
+            if (right - left < res[1] - res[0]) {
+                res[0] = left;
+                res[1] = right;
+            }
+        }
+
+        return res;
+    }
+}
