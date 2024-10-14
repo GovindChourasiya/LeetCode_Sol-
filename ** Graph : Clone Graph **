@@ -3,7 +3,7 @@ class Solution {
         if (node == null) return null;
 
         Node newNode = new Node(node.val);
-        HashMap<Integer, Node> map = new HashMap<>();  // Correct the typo Noode -> Node
+        HashMap<Integer, Node> map = new HashMap<>(); 
 
         map.put(newNode.val, newNode);
 
@@ -11,7 +11,7 @@ class Solution {
         que.add(node);
 
         while (!que.isEmpty()) {
-            Node n = que.poll();  // Correct pop() to poll() for queue operations
+            Node n = que.poll(); 
             for (Node neigh : n.neighbors) {
                 if (!map.containsKey(neigh.val)) {
                     map.put(neigh.val, new Node(neigh.val));
@@ -21,6 +21,6 @@ class Solution {
             }
         }
 
-        return map.get(node.val);  // Return the cloned node of the input graph node
+        return map.get(node.val);  
     }
 }
