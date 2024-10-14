@@ -1,0 +1,21 @@
+class Solution {
+    public long maxKelements(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int n = nums.length;
+        long ans = 0;
+        
+        for(int i=0;i<n;i++){
+            pq.add(nums[i]);
+        }
+        for(int i=0;i<k;i++){
+            int num = pq.poll();
+            ans += num;
+
+            double res = (double)num/3;
+            pq.add((int)Math.ceil(res));
+        }
+
+        return ans;
+
+    }
+}
