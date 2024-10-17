@@ -1,1 +1,31 @@
+class Solution {
+    public int maximumSwap(int num) {
+        String str = Integer.toString(num);
+        StringBuilder s = new StringBuilder(str);
+        int n = str.length(); 
+        int arr[] = new int[n];
+
+        arr[n - 1] = n - 1;
+        for (int i = n - 2; i >= 0; i--) {
+            int rightMaxIdx = arr[i + 1];
+            char element = s.charAt(rightMaxIdx); 
+
+            arr[i] = s.charAt(i) > element ? i : rightMaxIdx;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int maxRightIdx = arr[i];
+            char element = s.charAt(maxRightIdx); 
+
+            if (s.charAt(i) < element) {
+                char ele = s.charAt(i);
+                s.setCharAt(i, element);
+                s.setCharAt(maxRightIdx, ele);
+                return Integer.parseInt(s.toString()); 
+            }
+        }
+
+        return num;
+    }
+}
 
