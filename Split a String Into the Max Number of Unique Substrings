@@ -1,0 +1,23 @@
+class Solution {
+    int maxCount = 0;
+    public void solveForString(String s, int i, Set<String> st, int currCount){
+        if (i >= s.length()) {
+            maxCount = Math.max(maxCount, currCount);
+            return;
+        }
+        for (int j = i; j < s.length(); j++) {
+            String sub = s.substring(i, j + 1);
+            if (!st.contains(sub)) {
+                st.add(sub);
+                solveForString(s, j + 1, st, currCount + 1);
+                st.remove(sub);
+            }
+        }
+    }
+    public int maxUniqueSplit(String s) {
+        Set<String> st = new HashSet<>();
+        int currCount = 0;
+        solveForString(s, 0, st, currCount);
+        return maxCount;
+    }
+}
