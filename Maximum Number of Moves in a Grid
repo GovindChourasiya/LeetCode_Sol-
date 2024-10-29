@@ -1,0 +1,32 @@
+class Solution {
+    public int[] arr = {-1,0,1};
+    public int solveForMatrix(int i, int j, int[][] grid,int n, int m, int[][] dp){
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        int count = 0;
+        for(int num : arr){
+            int newRow = i+num;
+            int newCol = j+1;
+
+            if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && grid[newRow][newCol] > grid[i][j]){
+                count = Math.max(count,1+solveForMatrix(newRow,newCol,grid,n,m,dp));
+            }
+        }
+        return dp[i][j] = count;
+    }
+    public int maxMoves(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][] dp = new int[n][m];
+        for(int[] a : dp){
+            Arrays.fill(a,-1);
+        }
+        int res = 0;
+        for(int i=0;i<n;i++){
+            res = Math.max(res,solveForMatrix(i,0,grid,n,m,dp));
+        }
+
+        return res;
+    }
+}
