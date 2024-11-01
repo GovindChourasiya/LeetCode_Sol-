@@ -1,0 +1,32 @@
+class Solution {
+    public int solve(int idx, int[] coins, int amount, int[][] dp) {
+        if (idx == 0) {
+            return (amount % coins[0] == 0) ? amount / coins[0] : (int)1e9;
+        }
+        if (dp[idx][amount] != -1) return dp[idx][amount];
+
+        int unPick = solve(idx - 1, coins, amount, dp);
+        int pick = (int)1e9;
+        if (coins[idx] <= amount) {
+            int res = solve(idx, coins, amount - coins[idx], dp);
+            if (res != (int)1e9) {
+                pick = 1 + res;
+            }
+        }
+
+        return dp[idx][amount] = Math.min(pick, unPick);
+    }
+
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount + 1];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= amount; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        int val = solve(n - 1, coins, amount, dp);
+
+        return (val == (int)1e9) ? -1 : val;
+    }
+}
