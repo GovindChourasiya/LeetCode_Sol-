@@ -1,0 +1,30 @@
+class Solution {
+    public int countSetBits(int num){
+        int count = 0;
+        while(num > 0){
+            count += (num & 1);
+            num >>= 1;
+        }
+        return count;
+    }
+    public boolean canSortArray(int[] nums) {
+        int n = nums.length;
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n-i-1;j++){
+                if(nums[j] <= nums[j+1]){
+                    continue;
+                } else{
+                    if(countSetBits(nums[j]) == countSetBits(nums[j+1])){
+                        int num = nums[j];
+                        nums[j] = nums[j+1];
+                        nums[j+1] = num;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
