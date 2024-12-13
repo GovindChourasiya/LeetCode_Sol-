@@ -1,0 +1,38 @@
+class Pair{
+    int ele;
+    int idx;
+    public Pair(int ele, int idx){
+        this.ele = ele;
+        this.idx = idx;
+    }
+}
+class Solution {
+    public long findScore(int[] nums) {
+        List<Pair> list = new ArrayList<>();
+        boolean visited[] = new boolean[nums.length];
+        Arrays.fill(visited,false);
+        for(int i=0;i<nums.length;i++){
+            list.add(new Pair(nums[i],i));
+        }
+        Collections.sort(list,(a,b)-> a.ele == b.ele ? a.idx-b.idx : a.ele-b.ele);
+        long res = 0;
+        for(Pair obj : list){
+            int first = obj.ele;
+            int second = obj.idx;
+            if(visited[second] == true){
+                continue;
+            }
+            visited[second] = true;
+            if(second > 0){
+                visited[second-1] = true;
+            }
+            if(second < nums.length-1){
+                visited[second+1] = true;
+            }
+            res += first;
+
+        }
+
+        return res;
+    }
+}
