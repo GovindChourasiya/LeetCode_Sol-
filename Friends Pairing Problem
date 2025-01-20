@@ -1,0 +1,14 @@
+class Solution {
+    public long func(int n, Long[] dp){
+        if(n == 1) return 1;
+        if(n == 2) return 2;
+        if(dp[n] != -1) return dp[n];
+        return dp[n] = func(n-1,dp) + ((n-1)*func(n-2,dp));
+    }
+    public long countFriendsPairings(int n) {
+        // code here
+        Long[] dp = new Long[n+1];
+        Arrays.fill(dp,-1L);
+        return func(n,dp);
+    }
+}
