@@ -1,0 +1,33 @@
+class Solution {
+    // Function to return max value that can be put in knapsack of capacity.
+    static int helper(int capacity, int val[], int wt[], int idx, int[][] dp){
+        int n = val.length;
+        if(idx == n-1){
+            if(wt[idx] <= capacity){
+                capacity -= wt[idx];
+                return val[idx];
+            }
+            return 0;
+        }
+        if(dp[idx][capacity] != -1){
+            return dp[idx][capacity];
+        }
+        int notTake = 0 + helper(capacity,val,wt,idx+1,dp);
+        int take = Integer.MIN_VALUE;
+        if(wt[idx] <= capacity){
+            take = val[idx] + helper(capacity-wt[idx],val,wt,idx+1,dp);
+        }
+        
+        return dp[idx][capacity] = Math.max(take,notTake);
+    }
+    static int knapSack(int capacity, int val[], int wt[]) {
+        // code here
+        int dp[][] = new int[val.length][capacity+1];
+        for(int i=0;i<val.length;i++){
+            for(int j=0;j<=capacity;j++){
+                dp[i][j] = -1;
+            }
+        }
+        return helper(capacity,val,wt,0,dp);
+    }
+}
