@@ -1,0 +1,29 @@
+class Solution {
+    public int getSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            int rem = num % 10;
+            num /= 10;
+            sum += rem;
+        }
+        return sum;
+    }
+
+    public int maximumSum(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int maxSum = -1;
+
+        for (int num : nums) {
+            int sum = getSum(num);
+            if (map.containsKey(sum)) {
+                int currentSum = map.get(sum) + num;
+                maxSum = Math.max(maxSum, currentSum);
+                map.put(sum, Math.max(map.get(sum), num));
+            } else {
+                map.put(sum, num);
+            }
+        }
+
+        return maxSum;
+    }
+}
